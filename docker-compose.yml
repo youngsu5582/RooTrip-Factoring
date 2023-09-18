@@ -14,12 +14,12 @@ services:
       MYSQL_ROOT_PASSWORD: "1234"
       MYSQL_DATABASE: rootrip-factoring
 
-  app:
-    build:
-      context: .
-      dockerfile: ./Dockerfile
-    container_name: rootrip-factoring-backend
-    ports:
-      - 8000:8000
-    depends_on:
-      - db
+  # app:
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   container_name: rootrip-factoring-backend
+  #   ports:
+  #     - 8000:8000
+  #   depends_on:
+  #     - db
