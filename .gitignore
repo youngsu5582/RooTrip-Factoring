@@ -1,0 +1,7 @@
+node_modules
+dist
+bin
+package-lock.json
+tsconfig.build.json
+.DS_Store
+.env
