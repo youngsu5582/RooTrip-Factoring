@@ -1,10 +1,12 @@
 import { DomainEvent, DomainEventProps } from '@src/libs/ddd/domain-event-base';
 import { CreateLocalUserProps } from '../user.type';
 
-export class UserCreatedDomainEvent extends DomainEvent {
+export class SaveTemporalRegisterDataDomainEvent extends DomainEvent {
+  readonly key: string;
   readonly data: CreateLocalUserProps;
-  constructor(props: DomainEventProps<UserCreatedDomainEvent>) {
+  constructor(props: DomainEventProps<SaveTemporalRegisterDataDomainEvent>) {
     super(props);
+    this.key = props.key;
     this.data = props.data;
   }
 }
