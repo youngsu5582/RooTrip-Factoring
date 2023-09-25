@@ -11,7 +11,7 @@ import {
 } from '../../domain/user.error';
 
 @Controller('auth/register')
-export class CreateUserController {
+export class CreateLocalUserController {
   constructor(private readonly commandBus: CommandBus) {}
   /**
    * 사용자 회원가입 기능
