@@ -12,19 +12,20 @@ export class UserEntity extends AggregateRoot<CreateLocalUserProps> {
     const id = randomId();
     createProps.password = hashingPassword(createProps.password);
     const user = new UserEntity({ id, props: createProps });
-    const vertificationRedirectUrl = randomCode();
+    const vertificationRedirectCode = randomCode();
     user.addEvent(
       new SendVertificationEmailDomainEvent({
         aggregatedId: id,
         email: createProps.email,
-        redirectUrl: vertificationRedirectUrl,
+        nickname:createProps.nickname,
+        redirectCode: vertificationRedirectCode,
       }),
     );
     user.addEvent(
       new SaveTemporalRegisterDataDomainEvent({
         aggregatedId: id,
         data: createProps,
-        key: vertificationRedirectUrl,
+        key: vertificationRedirectCode,
       }),
     );
     return user;

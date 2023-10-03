@@ -7,11 +7,8 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { SendVertificationEmailEventListener } from './listeners/send-vertification-email.event-listener';
 import { SaveTemporalRegisterDataEventListener } from './listeners/save-temporal-register-data.event-listener';
 import { ProviderModule } from '@src/providers/provider.module';
-import { SendVertificationEmailMessageController } from './microservice/send-vertification-email.message.controller';
-//import { SendVertificationEmailMessageController } from './microservice/send-vertification-email.message.controller';
 
 const httpControllers = [CreateLocalUserController];
-const messageControllers = [SendVertificationEmailMessageController];
 
 const commandHandler: Provider[] = [CreateUserCommandHandler];
 const repositoires: Provider[] = [
@@ -24,7 +21,7 @@ const listeners: Provider[] = [
 
 @Module({
   imports: [CqrsModule, ProviderModule],
-  controllers: [...httpControllers, ...messageControllers],
+  controllers: [...httpControllers],
   providers: [...commandHandler, ...repositoires, ...listeners],
 })
 export class UserModule {}

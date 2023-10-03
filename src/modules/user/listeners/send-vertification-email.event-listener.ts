@@ -13,7 +13,7 @@ export class SendVertificationEmailEventListener {
     const result = this.producer.send({
       messages: [
         {
-          value: JSON.stringify({ email: event.email, url: event.redirectUrl }),
+          value: JSON.stringify({ email: event.email, code: event.redirectCode,nickname:event.nickname }),
         },
       ],
       topic: SEND_VERTIFICATION_EMAIL,
