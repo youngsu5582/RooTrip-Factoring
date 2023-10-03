@@ -3,7 +3,7 @@ import AppRequestContext from './app-request-context';
 
 export class RequestContextService {
   static getContext(): AppRequestContext {
-    const ctx: AppRequestContext = RequestContext.currentContext.req;
+    const ctx: AppRequestContext = RequestContext.currentContext?.req;
     return ctx;
   }
   static getRequest() {

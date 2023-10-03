@@ -1,16 +1,25 @@
 import { Inject, Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { SendVertificationEmailDomainEvent } from '../domain/events/send-vertification-email.domain-event';
-import { ClientKafka } from '@nestjs/microservices';
+import { SEND_VERTIFICATION_EMAIL } from '../user.di-token';
+import { Producer } from 'kafkajs';
+import { PRODUCER } from '@src/providers/kafka/kafka.di-token';
+SEND_VERTIFICATION_EMAIL;
 @Injectable()
 export class SendVertificationEmailEventListener {
-  constructor(@Inject('KAFKA') private readonly producer: ClientKafka) {
-    //this.producer = kafka.producer();
-  }
+  constructor(@Inject(PRODUCER) private readonly producer: Producer) {}
   @OnEvent(SendVertificationEmailDomainEvent.name)
-  handleUserCreatedEvent(event: SendVertificationEmailDomainEvent) {
-    this.producer.send('send.vertification.email', event.email);
-
-    //    this.producer.send({topic:"send.vertification.email",messages:[{value:event.email}]})
+  handleSendVertificationEmailEvent(event: SendVertificationEmailDomainEvent) {
+    const result = this.producer.send({
+      messages: [
+        {
+          value: JSON.stringify({ email: event.email, url: event.redirectUrl }),
+        },
+      ],
+      topic: SEND_VERTIFICATION_EMAIL,
+      acks: 1,
+    });
+    result.then((data) => data);
+    result.catch((err) => err);
   }
 }

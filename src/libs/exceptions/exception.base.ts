@@ -3,7 +3,7 @@ import { RequestContextService } from '../application/context/request-context.se
 export interface SerializedException {
   message: string;
   code: string;
-  correlationId: string;
+  correlationId?: string;
   businessCode: number;
   stack?: string;
   cause?: string;
@@ -12,7 +12,7 @@ export interface SerializedException {
 
 export abstract class ExceptionBase extends Error {
   abstract code: string;
-  public readonly correlationId: string;
+  public readonly correlationId?: string;
   constructor(
     readonly message: string,
     readonly businessCode: number,
@@ -22,7 +22,7 @@ export abstract class ExceptionBase extends Error {
     super(message);
     Error.captureStackTrace(this, this.constructor);
     const ctx = RequestContextService.getContext();
-    this.correlationId = ctx.requestId;
+    this.correlationId = ctx?.requestId;
   }
   toJSON(): SerializedException {
     return {

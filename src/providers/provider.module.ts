@@ -1,25 +1,11 @@
 import { Module } from '@nestjs/common';
 import { RedisProvider } from './redis.provider';
-import { ClientsModule, Transport } from '@nestjs/microservices';
+import { KafkaModule } from './kafka/kafka.module';
 
 @Module({
-  imports: [
-    ClientsModule.register([
-      {
-        name: 'KAFKA',
-        transport: Transport.KAFKA,
-        options: {
-          client: {
-            clientId: 'RooTripClient',
-            brokers: ['localhost:9094'],
-          },
-          producer: {},
-        },
-      },
-    ]),
-  ],
+  imports: [KafkaModule],
   controllers: [],
   providers: [RedisProvider],
-  exports: [RedisProvider, ClientsModule],
+  exports: [RedisProvider, KafkaModule],
 })
 export class ProviderModule {}
