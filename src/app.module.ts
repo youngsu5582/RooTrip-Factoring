@@ -18,7 +18,12 @@ const interceptors: Provider[] = [
   },
 ];
 @Module({
-  imports: [RequestContextModule, EventEmitterModule.forRoot({}), UserModule,MicroserviceModule],
+  imports: [
+    RequestContextModule,
+    EventEmitterModule.forRoot({}),
+    UserModule,
+    MicroserviceModule,
+  ],
   controllers: [],
   providers: [...interceptors],
 })

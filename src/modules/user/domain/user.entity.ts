@@ -17,7 +17,7 @@ export class UserEntity extends AggregateRoot<CreateLocalUserProps> {
       new SendVertificationEmailDomainEvent({
         aggregatedId: id,
         email: createProps.email,
-        nickname:createProps.nickname,
+        nickname: createProps.nickname,
         redirectCode: vertificationRedirectCode,
       }),
     );

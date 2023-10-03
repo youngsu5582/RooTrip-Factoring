@@ -6,7 +6,7 @@ import { SendVertificationPayload } from '@src/types';
 
 @Controller()
 export class SendVertificationEmailMessageController {
-  constructor(private readonly emailerProvider : EmailerProvider){}
+  constructor(private readonly emailerProvider: EmailerProvider) {}
   @MessagePattern(SEND_VERTIFICATION_EMAIL)
   async execute(@Payload() payload: SendVertificationPayload) {
     this.emailerProvider.sendVertification(payload);
