@@ -5,3 +5,4 @@ package-lock.json
 tsconfig.build.json
 .DS_Store
 .env
+prisma/migrations

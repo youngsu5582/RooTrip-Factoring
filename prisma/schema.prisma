@@ -1,10 +1,48 @@
 generator client {
   provider      = "prisma-client-js"
   binaryTargets = ["native", "linux-musl-arm64-openssl-3.0.x"]
+
 }
 
 datasource db {
   provider = "mysql"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id  String @id @default(uuid())
   
+  ///@format email
+  email String @unique
+  
+  ///@pattern ^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*?&])[A-Za-z\d`-~!@#$%^&*()/]{8,16}$
+  password String
+
+  /// 토큰 재발급 위한 리프레시 토큰
+  refresToken String?
+
+  profileId String  @unique
+
+  profile Profile?
+
+
+  /// @minLength 2
+  /// @minLength 20
+  nickname  String
+
+}
+  
+model Profile {
+  id  String  @id @default(uuid())
+
+  userId  String @unique    @map("user_id")
+  
+  user  User @relation(fields: [userId],references: [id])
+
+  profileImage String  @default("")
+
+  bio String  @default("")
+
+  name String
+
+} 

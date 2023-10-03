@@ -4,6 +4,8 @@ import { EventEmitter } from 'events';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger } from '@nestjs/common';
+import { useSwagger } from './middleware/use-swagger.middleware';
+import { MicroserviceOptions, Transport } from '@nestjs/microservices';
 export class NestBootStrapApplication extends EventEmitter {
   private static INSTANCE: NestBootStrapApplication;
   private static PORT = process.env.PORT || 8000;
@@ -35,6 +37,16 @@ export class NestBootStrapApplication extends EventEmitter {
       {},
     );
     this.initMiddleware(this._application);
+    this._application.connectMicroservice<MicroserviceOptions>({
+      transport: Transport.KAFKA,
+      options: {
+        client: {
+          clientId: 'RooTripClient',
+          brokers: ['localhost:9094'],
+        },
+      },
+    });
+    this._application.startAllMicroservices();
     await this._application.listen(NestBootStrapApplication.PORT);
   }
   /**
@@ -57,13 +69,16 @@ export class NestBootStrapApplication extends EventEmitter {
    */
   private useCors(app: NestExpressApplication) {
     const whitelist = this.isDevelopment()
-      ? [NestBootStrapApplication.CORS_WHITELIST,'http://localhost:8000']
+      ? [NestBootStrapApplication.CORS_WHITELIST, 'http://localhost:8000']
       : [NestBootStrapApplication.PRODUCTION_HOST];
     app.enableCors({
-      origin: this.isDevelopment()? '*' : (origin, callback) => {
-        if (!origin || whitelist.indexOf(origin) !== -1) callback(null, true);
-        else callback(new Error('Not Allowed by CORS'));
-      },
+      origin: this.isDevelopment()
+        ? '*'
+        : (origin, callback) => {
+            if (!origin || whitelist.indexOf(origin) !== -1)
+              callback(null, true);
+            else callback(new Error('Not Allowed by CORS'));
+          },
       credentials: true,
     });
   }
@@ -74,6 +89,7 @@ export class NestBootStrapApplication extends EventEmitter {
    */
   private initMiddleware(app: NestExpressApplication) {
     this.useCors(app);
+    useSwagger(app);
   }
 
   /**
