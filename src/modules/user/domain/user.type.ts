@@ -7,3 +7,7 @@ export type CreateLocalUserProps = Pick<
   Pick<Profile, 'bio' | 'profileImage' | 'name'>;
 
 export type UserProps = Pick<User, 'email' | 'password' | 'nickname'>;
+
+export type VerificationUserCodeProps = {
+  code: string;
+};

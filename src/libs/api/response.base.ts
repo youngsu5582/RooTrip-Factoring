@@ -1,9 +1,9 @@
 export class ResponseBase<T> {
   status: boolean;
   message?: string;
-  data: T;
-  constructor(data: T) {
+  data?: T;
+  constructor(data?: T) {
     this.status = true;
-    this.data = data;
+    this.data = data !== undefined ? data : undefined;
   }
 }

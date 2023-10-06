@@ -11,4 +11,10 @@ export class RedisProvider {
     await this.client.setex(key, expiration, data);
     return;
   }
+  async getData(key: string) {
+    return await this.client.get(key);
+  }
+  async delData(key: string) {
+    return await this.client.del(key);
+  }
 }

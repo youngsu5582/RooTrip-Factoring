@@ -14,6 +14,6 @@ export class SaveTemporalRegisterDataEventListener {
     event: SaveTemporalRegisterDataDomainEvent,
   ) {
     const key = `temporalRegister : ${event.key}`;
-    this.redis.saveData(key, event.data);
+    this.redis.saveData(key, JSON.stringify(event.data));
   }
 }

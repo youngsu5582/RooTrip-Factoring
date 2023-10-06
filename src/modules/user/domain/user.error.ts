@@ -29,3 +29,12 @@ export class NicknameAlreadyExistError extends ExceptionBase {
     );
   }
 }
+
+export class CodeNotExistError extends ExceptionBase {
+  static readonly message = '인증 코드가 없습니다.';
+  static readonly businessCode = 1003;
+  public readonly code = 'USER.CODE_NOT_EXIST';
+  constructor(cause?: Error) {
+    super(CodeNotExistError.message, CodeNotExistError.businessCode, cause);
+  }
+}
