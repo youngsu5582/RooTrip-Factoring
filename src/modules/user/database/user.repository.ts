@@ -31,6 +31,7 @@ export class UserRepository
       name,
       userId: props.id,
     };
+    delete createUserDto['metadata'];
     const profileId = (
       await this.profile.create({
         data: { ...createProfileDto },

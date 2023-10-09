@@ -7,6 +7,7 @@ export const Consumer = {
     const producer = new Kafka({
       clientId: 'RooTripClient',
       brokers: ['localhost:9094'],
+      logLevel: 0,
     }).consumer({ groupId: 'nestjs-group-server' });
     producer.connect();
     return producer;

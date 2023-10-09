@@ -7,6 +7,7 @@ export const Producer = {
     const producer = new Kafka({
       clientId: 'RooTripClient',
       brokers: ['localhost:9094'],
+      logLevel: 0,
     }).producer({
       retry: { retries: 3, initialRetryTime: 1000, multiplier: 1.5 },
     });

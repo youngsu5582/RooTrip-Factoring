@@ -6,3 +6,4 @@ tsconfig.build.json
 .DS_Store
 .env
 prisma/migrations
+coverage
