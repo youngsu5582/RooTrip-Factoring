@@ -65,9 +65,14 @@ feature 에서 개발한 것을 집합하는 branch
 
 ## 작성 일지
 
-1. RooTrip 재 리팩토링
+1. RooTrip 재 리팩토링 : 
+
 https://velog.io/@dragonsu/RooTrip-%EC%9E%AC-%EB%A6%AC%ED%8C%A9%ED%86%A0%EB%A7%81
-2. 이메일 인증 후 회원가입 기능 부시기( Kafka , Event-Emitter , DDD , CQRS )
+
+2. 이메일 인증 후 회원가입 기능 부시기( Kafka , Event-Emitter , DDD , CQRS ) : 
+
 https://velog.io/@dragonsu/%EC%9D%B4%EB%A9%94%EC%9D%BC-%EC%9D%B8%EC%A6%9D-%ED%9B%84-%ED%9A%8C%EC%9B%90%EA%B0%80%EC%9E%85-%EA%B8%B0%EB%8A%A5-%EB%B6%80%EC%8B%9C%EA%B8%B0-Kafka-Event-Emitter-DDD-CQRS
-3. RooTrip 테스트 작성기
+
+3. RooTrip 테스트 작성기 :
+
 https://velog.io/@dragonsu/RooTrip-%ED%85%8C%EC%8A%A4%ED%8A%B8-%EC%9E%91%EC%84%B1%EA%B8%B0
