@@ -21,10 +21,9 @@ model User {
   /// 토큰 재발급 위한 리프레시 토큰
   refresToken String?
 
-  profileId String  @unique
+  profile Profile? @relation(fields: [profileId],references: [id])
 
-  profile Profile?
-
+  profileId String? @unique @map("profile_id")
 
   /// @minLength 2
   /// @minLength 20
@@ -34,10 +33,10 @@ model User {
   
 model Profile {
   id  String  @id @default(uuid())
-
-  userId  String @unique    @map("user_id")
   
-  user  User @relation(fields: [userId],references: [id])
+  user  User?
+
+  userId String? @map("user_id")
 
   profileImage String  @default("")
 

@@ -8,7 +8,7 @@ export interface BaseEntityProps {
 
 export interface CreateEntityProps<T> {
   id: AggregateID;
-  props: T;
+  props?: T;
   createdAt?: Date;
   updatedAt?: Date;
 }
@@ -27,7 +27,7 @@ export abstract class Entity<EntityProps> {
     this.props = props;
   }
 
-  protected readonly props: EntityProps;
+  protected readonly props?: EntityProps;
 
   protected abstract _id: AggregateID;
 
@@ -52,7 +52,7 @@ export abstract class Entity<EntityProps> {
   }
 
   getProps(): EntityProps {
-    return this.props;
+    return this.props!;
   }
 
   static isEntity(entity: unknown): entity is Entity<unknown> {

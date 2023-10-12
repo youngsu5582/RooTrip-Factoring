@@ -43,6 +43,7 @@ export class NestBootStrapApplication extends EventEmitter {
         client: {
           clientId: 'RooTripClient',
           brokers: ['localhost:9094'],
+          logLevel: 0,
         },
       },
     });

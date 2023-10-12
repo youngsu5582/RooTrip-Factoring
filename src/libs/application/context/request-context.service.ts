@@ -10,7 +10,7 @@ export class RequestContextService {
     return RequestContext.currentContext.req;
   }
   static getRequestId(): string {
-    return this.getContext().requestId;
+    return this.getContext()?.requestId;
   }
   static setRequestId(id: string): void {
     const ctx: AppRequestContext = RequestContext.currentContext.req;

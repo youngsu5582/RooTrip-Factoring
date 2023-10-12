@@ -1,3 +1,4 @@
+import { isDevelopment } from '@src/utils/is-development';
 import { RequestContextService } from '../application/context/request-context.service';
 
 export interface SerializedException {
@@ -28,9 +29,9 @@ export abstract class ExceptionBase extends Error {
     return {
       message: this.message,
       code: this.code,
-      stack: this.stack,
+      stack: isDevelopment() ? this.stack : undefined,
+      correlationId: isDevelopment() ? this.correlationId : undefined,
       businessCode: this.businessCode,
-      correlationId: this.correlationId,
       metadata: this.metadata,
       cause: JSON.stringify(this.cause),
     };

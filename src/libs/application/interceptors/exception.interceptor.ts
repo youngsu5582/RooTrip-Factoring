@@ -1,23 +1,25 @@
 import {
-  CallHandler,
-  ExecutionContext,
-  Logger,
-  NestInterceptor,
+  ExceptionFilter,
+  Catch,
+  ArgumentsHost,
+  HttpException,
 } from '@nestjs/common';
-import { Observable, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { HttpAdapterHost } from '@nestjs/core';
 import { ExceptionBase } from '@src/libs/exceptions/exception.base';
 
-export class ExceptionInterceptor implements NestInterceptor {
-  private readonly logger: Logger = new Logger(ExceptionInterceptor.name);
-  intercept(
-    _context: ExecutionContext,
-    next: CallHandler,
-  ): Observable<ExceptionBase> {
-    return next.handle().pipe(
-      catchError((err) => {
-        return throwError(() => err);
-      }),
-    );
+@Catch()
+export class AllExceptionsFilter implements ExceptionFilter {
+  constructor(private readonly httpAdapterHost: HttpAdapterHost) {}
+
+  catch(exception: unknown, host: ArgumentsHost): void {
+    const { httpAdapter } = this.httpAdapterHost;
+    const ctx = host.switchToHttp();
+    if (exception instanceof ExceptionBase) {
+      const data = exception.toJSON();
+      httpAdapter.reply(ctx.getResponse(), data, 400);
+    } else if (exception instanceof HttpException) {
+      const status = exception.getStatus();
+      httpAdapter.reply(ctx.getResponse(), exception, status);
+    }
   }
 }

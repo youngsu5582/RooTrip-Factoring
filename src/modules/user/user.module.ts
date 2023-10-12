@@ -7,16 +7,26 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { SendVertificationEmailEventListener } from './listeners/send-vertification-email.event-listener';
 import { SaveTemporalRegisterDataEventListener } from './listeners/save-temporal-register-data.event-listener';
 import { ProviderModule } from '@src/providers/provider.module';
+import { VerificationUserCodeController } from './commands/verification-user-code/verification-user-code.controller';
+import { VerificationUserCodeCommandHandler } from './commands/verification-user-code/verification-user-code.service';
+import { DeleteTemporalRegisterDataEventListener } from './listeners/delete-temporal-register.event-listener';
 
-const httpControllers = [CreateLocalUserController];
+const httpControllers = [
+  CreateLocalUserController,
+  VerificationUserCodeController,
+];
 
-const commandHandler: Provider[] = [CreateUserCommandHandler];
+const commandHandler: Provider[] = [
+  CreateUserCommandHandler,
+  VerificationUserCodeCommandHandler,
+];
 const repositoires: Provider[] = [
   { provide: USER_REPOSITORY, useClass: UserRepository },
 ];
 const listeners: Provider[] = [
   SendVertificationEmailEventListener,
   SaveTemporalRegisterDataEventListener,
+  DeleteTemporalRegisterDataEventListener,
 ];
 
 @Module({

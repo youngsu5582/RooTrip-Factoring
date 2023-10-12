@@ -4,10 +4,11 @@ import { SendVertificationEmailDomainEvent } from '../domain/events/send-vertifi
 import { SEND_VERTIFICATION_EMAIL } from '../user.di-token';
 import { Producer } from 'kafkajs';
 import { PRODUCER } from '@src/providers/kafka/kafka.di-token';
-SEND_VERTIFICATION_EMAIL;
 @Injectable()
 export class SendVertificationEmailEventListener {
-  constructor(@Inject(PRODUCER) private readonly producer: Producer) {}
+  constructor(@Inject(PRODUCER) private readonly producer: Producer) {
+    producer.connect();
+  }
   @OnEvent(SendVertificationEmailDomainEvent.name)
   handleSendVertificationEmailEvent(event: SendVertificationEmailDomainEvent) {
     const result = this.producer.send({

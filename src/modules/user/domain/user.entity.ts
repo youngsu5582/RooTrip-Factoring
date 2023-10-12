@@ -5,6 +5,7 @@ import { hashingPassword } from '@src/utils/hash-password';
 import { SendVertificationEmailDomainEvent } from './events/send-vertification-email.domain-event';
 import { SaveTemporalRegisterDataDomainEvent } from './events/save-temporal-register-data.domain-event';
 import { randomCode } from '@src/utils/random-code';
+import { DeleteTemporalRegisterDataDomainEvent } from './events/delete-temporal-register-data.domain-event';
 
 export class UserEntity extends AggregateRoot<CreateLocalUserProps> {
   protected readonly _id: AggregateId;
@@ -27,6 +28,13 @@ export class UserEntity extends AggregateRoot<CreateLocalUserProps> {
         data: createProps,
         key: vertificationRedirectCode,
       }),
+    );
+    return user;
+  }
+  static confirm(id: string, key: string) {
+    const user = new UserEntity({ id });
+    user.addEvent(
+      new DeleteTemporalRegisterDataDomainEvent({ aggregatedId: id, key }),
     );
     return user;
   }

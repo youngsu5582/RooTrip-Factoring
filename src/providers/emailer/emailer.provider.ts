@@ -1,5 +1,5 @@
 import { MailerService } from '@nestjs-modules/mailer';
-import {Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { SendVertificationPayload } from '@src/types';
 
 @Injectable()
