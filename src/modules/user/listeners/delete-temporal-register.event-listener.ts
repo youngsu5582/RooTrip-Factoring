@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
-import { RedisProvider } from '@src/providers/redis.provider';
+import { RedisProvider } from '@src/providers/redis/redis.provider';
 import { DeleteTemporalRegisterDataDomainEvent } from '../domain/events/delete-temporal-register-data.domain-event';
 
 @Injectable()
@@ -10,6 +10,8 @@ export class DeleteTemporalRegisterDataEventListener {
   handleSaveTemporalRegisterDataEvent(
     event: DeleteTemporalRegisterDataDomainEvent,
   ) {
-    this.redis.delData(event.key);
+    const result = this.redis.delData(event.key);
+    result.then((data) => data);
+    result.catch((err) => err);
   }
 }

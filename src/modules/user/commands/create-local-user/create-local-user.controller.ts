@@ -22,7 +22,7 @@ export class CreateLocalUserController {
    * @param createUserProps
    * @returns
    */
-  @TypedRoute.Post('')
+  @TypedRoute.Post()
   async create(
     @TypedBody() createLocalUserProps: CreateLocalUserProps,
   ): Promise<

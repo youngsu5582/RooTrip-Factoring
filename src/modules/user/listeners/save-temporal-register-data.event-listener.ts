@@ -1,7 +1,7 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { OnEvent } from '@nestjs/event-emitter';
 import { SaveTemporalRegisterDataDomainEvent } from '../domain/events/save-temporal-register-data.domain-event';
-import { RedisProvider } from '@src/providers/redis.provider';
+import { RedisProvider } from '@src/providers/redis/redis.provider';
 
 @Injectable()
 export class SaveTemporalRegisterDataEventListener {
@@ -14,6 +14,6 @@ export class SaveTemporalRegisterDataEventListener {
     event: SaveTemporalRegisterDataDomainEvent,
   ) {
     const key = `temporalRegister : ${event.key}`;
-    this.redis.saveData(key, JSON.stringify(event.data));
+    this.redis.saveData(key, JSON.stringify(event.data), 600);
   }
 }

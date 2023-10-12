@@ -11,7 +11,6 @@ export const Producer = {
     }).producer({
       retry: { retries: 3, initialRetryTime: 1000, multiplier: 1.5 },
     });
-    producer.connect();
     return producer;
   },
 };

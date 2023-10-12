@@ -14,6 +14,11 @@ export class RedisProvider {
   async getData(key: string) {
     return await this.client.get(key);
   }
+  async getDataWithJson<T>(key: string): Promise<T> {
+    return await this.client
+      .get(key)
+      .then((data) => (data ? JSON.parse(data) : null));
+  }
   async delData(key: string) {
     return await this.client.del(key);
   }

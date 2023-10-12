@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { RedisProvider } from './redis.provider';
+import { RedisProvider } from './redis/redis.provider';
 import { KafkaModule } from './kafka/kafka.module';
 
 @Module({

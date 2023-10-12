@@ -8,7 +8,7 @@ import { SendVertificationPayload } from '@src/types';
 export class SendVertificationEmailMessageController {
   constructor(private readonly emailerProvider: EmailerProvider) {}
   @MessagePattern(SEND_VERTIFICATION_EMAIL)
-  async execute(@Payload() payload: SendVertificationPayload) {
+  execute(@Payload() payload: SendVertificationPayload) {
     this.emailerProvider.sendVertification(payload);
   }
 }

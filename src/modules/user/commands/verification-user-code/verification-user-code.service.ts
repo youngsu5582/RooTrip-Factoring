@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { RedisProvider } from '@src/providers/redis.provider';
-import { Err, Ok } from 'oxide.ts';
+import { RedisProvider } from '@src/providers/redis/redis.provider';
+import { Err, Ok, Result } from 'oxide.ts';
 import { VerificationUserCodeCommand } from './verification-user-code.command';
 import {
   CodeNotExistError,
@@ -22,16 +22,28 @@ export class VerificationUserCodeCommandHandler implements ICommandHandler {
     private readonly userRepository: UserRepositoryPort,
     private readonly eventEmitter: EventEmitter2,
   ) {}
-  async execute(command: VerificationUserCodeCommand): Promise<any> {
+  async execute(
+    command: VerificationUserCodeCommand,
+  ): Promise<
+    Result<
+      null,
+      CodeNotExistError | EmailAlreadyExistError | NicknameAlreadyExistError
+    >
+  > {
     const key = `temporalRegister : ${command.code}`;
-    const data = await this.redis.getData(key);
-    if (!data) return Err(new CodeNotExistError());
-    const props: CreateLocalUserProps & { id: string } = JSON.parse(data);
+    const props = await this.redis.getDataWithJson<
+      CreateLocalUserProps & { id: string }
+    >(key);
+
+    if (!props) return Err(new CodeNotExistError());
+
     const { email, nickname } = props;
+
     if (await this.userRepository.findByEmail(email))
       return Err(new EmailAlreadyExistError());
     if (await this.userRepository.findByNickname(nickname))
       return Err(new NicknameAlreadyExistError());
+
     await this.userRepository.createLocalUserWithProfile(props);
     const user = UserEntity.confirm(props.id, key);
     user.publishEvents(this.eventEmitter);
